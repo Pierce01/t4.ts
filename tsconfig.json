@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "NodeNext",
+    "lib": ["es2020", "dom"],
+    "target": "es2020",
+    "declaration": true,
+    "strict": true,
+    "sourceMap": true,
+  },
+  "exclude": ["cjs", "esm"]
+}
