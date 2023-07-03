@@ -1,18 +1,25 @@
 import { Elements } from "./utility/Global.js"
 import { Hierarchy } from "./Hierarchy.js"
 import { Profile } from "./Profile.js"
+import { Content } from "./Content.js"
+import { Download } from "./Download.js"
 
 export class Client {
   url: String
   private token: String
+
   hierarchy: Hierarchy
   profile: Profile
+  content: Content
+  download: Download
   constructor(url: String, token: String) {
     this.url = url
     this.token = token
 
     this.hierarchy = new Hierarchy(this)
     this.profile = new Profile(this)
+    this.content = new Content(this)
+    this.download = new Download(this)
   }
   
   async call(method: string, endpoint: string, options: any) {

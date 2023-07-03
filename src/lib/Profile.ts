@@ -1,4 +1,5 @@
 import { Client } from "./Client.js"
+import { UserProfileView } from "./utility/Global.js"
 
 export const ProfileEndpoint = 'profile' 
 export class Profile {
@@ -20,19 +21,4 @@ export class Profile {
     })
     return response?.ok ? await response.json() : false
   }
-}
-
-export interface UserProfileView {
-  firstName:               string;
-  lastName:                string;
-  username:                string;
-  emailAddress:            string;
-  defaultLanguage:         string;
-  oldPassword?:            string;
-  newPassword?:            string;
-  newPasswordConfirm?:     string;
-  uiLocale:                string;
-  htmlEditorId:            string;
-  defaultPreviewChannelId: string;
-  userLevel:               string;
 }
