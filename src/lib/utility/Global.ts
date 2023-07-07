@@ -287,3 +287,40 @@ export interface MetaDatas {
   value: string;
   lang:  string;
 }
+
+export interface MediaItemTableData {
+  draw:            string;
+  recordsTotal:    string;
+  recordsFiltered: string;
+  accessLevel:     string;
+  mediaRows:       MediaRow[];
+}
+
+export interface MediaRow {
+  id:               string;
+  status:           string;
+  language:         string;
+  name:             string;
+  description:      string;
+  version:          string;
+  fileName:         string;
+  fileSize:         string;
+  mediaTypeName:    string;
+  thumbnailURL:     string;
+  binaryLanguage:   string;
+  lock:             string;
+  numberOfVariants: string;
+  lastModified:     Date;
+}
+
+export interface Category {
+  id: number
+  language: string
+  name: string
+  accessLevel: number
+  status: number
+  children: Category[]
+  lastModified: string
+  printSequence: number
+  open: boolean
+}

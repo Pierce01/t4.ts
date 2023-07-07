@@ -1,7 +1,11 @@
-import { Elements } from "./utility/Global.js"
+import { Elements, UserProfileView } from "./utility/Global.js"
 import { Hierarchy } from "./Hierarchy.js"
 import { Profile } from "./Profile.js"
 import { Content } from "./Content.js"
+import { ContentType } from "./ContentType.js"
+import { Media } from "./Media.js"
+import { MediaCategory } from "./MediaCategory.js"
+import { MediaType } from "./MediaType.js"
 import { Download } from "./Download.js"
 
 export class Client {
@@ -11,6 +15,10 @@ export class Client {
   hierarchy: Hierarchy
   profile: Profile
   content: Content
+  contentType: ContentType
+  media: Media
+  mediaCategory: MediaCategory
+  mediaType: MediaType
   download: Download
   constructor(url: String, token: String) {
     this.url = url
@@ -19,6 +27,10 @@ export class Client {
     this.hierarchy = new Hierarchy(this)
     this.profile = new Profile(this)
     this.content = new Content(this)
+    this.contentType = new ContentType(this)
+    this.media = new Media(this)
+    this.mediaCategory = new MediaCategory(this)
+    this.mediaType = new MediaType(this)
     this.download = new Download(this)
   }
   
@@ -28,12 +40,14 @@ export class Client {
       let headers: Elements = {
         'authorization': `Bearer ${this.token}`,
         'accept': 'application/json, text/javascript, */*; q=0.01',
-        'accept-language': 'en-US,en;q=0.9'
+        'accept-language': 'en-US,en;q=0.9',
+        'connection': 'keep-alive'
       }
-      if (options?.body && typeof options.body == 'object') {
+      if (options?.body && (typeof options.body == 'object' || Array.isArray(options.body))) {
         options.body = JSON.stringify(options.body)
         headers['content-type'] = 'application/json'
       }
+      headers = options.headers ? Object.assign(options.headers, headers) : headers
       const request = await fetch(`${this.url}/${endpoint}`, {
         ...options,
         headers,
@@ -45,15 +59,7 @@ export class Client {
     }
   }
 
-  setToken(token: string) {
-    this.token = token
-  }
-
-  setURL(url: string) {
-    this.url = url
-  }
-
-  verify() {
-    // Check if client can make requests
+  async verify(): Promise<UserProfileView> {
+    return await this.profile.get()
   }
 }

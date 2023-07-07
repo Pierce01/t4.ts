@@ -8,7 +8,7 @@ export class Profile {
     this.client = client
   }
 
-  async get() {
+  async get(): Promise<UserProfileView> {
     const response = await this.client.call('GET', ProfileEndpoint, null)
     return response?.ok ? await response.json() : null
   }
