@@ -8,10 +8,10 @@ export class MediaCategory {
     this.client = client
   }
 
-  async list(sectionID: number, language: string | 'en'): Promise<Category[]> {
+  async list(categoryID: number, language: string | 'en'): Promise<Category[]> {
     const response = await this.client.call('POST', `${MediaCategoryEndpoint}`, { body: {
       "category": {
-        "id": sectionID,
+        "id": categoryID,
         language
       },
       "recursionDepth": -1,

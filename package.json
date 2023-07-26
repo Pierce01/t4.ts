@@ -10,7 +10,9 @@
   },
   "typesVersions": {
     "*": {
-      "index.d.ts": ["./esm/index.d.ts"]
+      "index.d.ts": [
+        "./esm/index.d.ts"
+      ]
     }
   },
   "main": "./cjs/index.js",

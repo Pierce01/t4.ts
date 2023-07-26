@@ -324,3 +324,121 @@ export interface Category {
   printSequence: number
   open: boolean
 }
+
+export enum MediaTypeCodes {
+  Image = 1,
+  MicrosoftOfficeDocument,
+  PDF,
+  StylesheetCss,
+  JavascriptFileProgrammableLayout,
+  Font,
+  PHP,
+  JavascriptFileOnPageJavascript,
+  WebDavCSS,
+  ImageGallery,
+  MP3,
+  XMLDocument,
+  XBM,
+  MP4,
+  Text,
+  ASPX,
+  KML,
+  ZIP,
+  wat,
+  CSV,
+  ICS,
+  Mobileconfig,
+  htaccess,
+  DXF,
+  JSON,
+  Ebook,
+  PHAR,
+  iCal,
+  CommonCartridgeCanvasCourse,
+  Javascript
+}
+
+export enum SyntaxTypeCodes {
+  None,
+  Javascript,
+  CSS,
+  HTML,
+  PHP,
+  Java
+}
+
+export type SyntaxTypeObjects = {
+  Javascript: {
+    id: SyntaxTypeCodes.Javascript,
+    name: "Javascript",
+    mime_code: "text/javascript"
+  },
+  CSS: {
+    id: SyntaxTypeCodes.CSS,
+    name: "Stylesheet CSS",
+    mime_code: "text/css"
+  },
+  HTML: {
+    id: SyntaxTypeCodes.HTML,
+    name: "HTML/XML",
+    mime_code: "application/xml"
+  },
+  PHP: {
+    id: SyntaxTypeCodes.PHP,
+    name: "PHP",
+    mime_code: "application/x-httpd-php"
+  },
+  Java: {
+    id: SyntaxTypeCodes.Java,
+    name: "Java",
+    mime_code: "text/x-java"
+  },
+}
+
+export interface MediaUpload {
+  name: string,
+  description: string,
+  type: MediaTypeCodes,
+  syntaxType?: SyntaxTypeCodes,
+  myMedia?: 0 | 1,
+  version?: string,
+  binaryLanguage?: 'smxx' | string,
+  file: string,
+  keywords?: string[],
+  language: string,
+  categoryID: string | number,
+  fileName?: string
+}
+
+export interface MediaData {
+  [key: string]: string | Blob,
+  name: string,
+  description: string,
+  type: string,
+  syntaxType: string,
+  myMedia: string,
+  elements: string,
+  version: string,
+  binaryLanguage: string,
+  file: Blob,
+  language: string,
+  categories: string,
+  fileName: string,
+}
+
+export function MediaUploadData(data: MediaUpload): MediaData {
+  return {
+    name: data.name,
+    description: data.description,
+    type: String(data.type),
+    file: new Blob([data.file]),
+    syntaxType: String(data.syntaxType || 0),
+    myMedia: String(data.myMedia || 0),
+    elements: JSON.stringify({'keywords#9:undefined': `${data.keywords?.join(', ') || ''}`}),
+    version: data.version || 'undefined',
+    binaryLanguage: data.binaryLanguage || 'smxx',
+    fileName: String(data.fileName),
+    language: data.language || 'smxx',
+    categories: String(data.categoryID)
+  }
+}

@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "module": "NodeNext",
-    "lib": ["es2020", "dom"],
-    "target": "es2020",
+    "lib": ["es2022", "dom"],
+    "target": "es2022",
     "declaration": true,
     "strict": true,
     "sourceMap": true,

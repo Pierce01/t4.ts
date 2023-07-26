@@ -1,5 +1,8 @@
 import { Client } from "./Client"
-import { MediaItemTableData } from "./utility/Global"
+import { MediaData, MediaItemTableData, MediaUpload, MediaUploadData } from "./utility/Global.js"
+import { existsSync, readFileSync } from 'node:fs'
+import * as path from 'path'
+
 
 export const MediaEndpoint = 'media'
 export class Media {
@@ -8,8 +11,25 @@ export class Media {
     this.client = client
   }
 
+  async add(data: MediaUpload) {
+    const formData = new FormData()
+    const expandedData: MediaData = MediaUploadData(data)
+    const filePath = path.resolve(data.file)
+    if (!existsSync(filePath)) throw Error(`File at ${filePath} does not exist.`)
+    if (!expandedData.fileName) expandedData.fileName = path.basename(filePath)
+    const blob = new Blob([readFileSync(filePath)])
+    for (let key in expandedData) { key == 'file' ? formData.append('file', blob, expandedData.fileName) : formData.append(key, expandedData[key]) }  
+    const response = await this.client.call('POST', `${MediaEndpoint}`, { body: formData })
+    return response?.ok ? await response.json() : null
+  }
+
   async get(contentId: number, language: string) {
     const response = await this.client.call('GET', `${MediaEndpoint}/${contentId}/${language}`, null)
+    return response?.ok ? await response.json() : null
+  }
+
+  async getMediaUsage(mediaID: number, language: string) {
+    const response = await this.client.call('GET', `${MediaEndpoint}/${mediaID}/${language}/usage`, null)
     return response?.ok ? await response.json() : null
   }
 

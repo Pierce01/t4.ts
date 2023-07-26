@@ -43,11 +43,11 @@ export class Client {
         'accept-language': 'en-US,en;q=0.9',
         'connection': 'keep-alive'
       }
-      if (options?.body && (typeof options.body == 'object' || Array.isArray(options.body))) {
+      if (options?.body && ((typeof options.body == 'object' && !(options.body instanceof FormData)) || Array.isArray(options.body))) {
         options.body = JSON.stringify(options.body)
         headers['content-type'] = 'application/json'
       }
-      headers = options.headers ? Object.assign(options.headers, headers) : headers
+      headers = options?.headers ? Object.assign(options.headers, headers) : headers
       const request = await fetch(`${this.url}/${endpoint}`, {
         ...options,
         headers,
