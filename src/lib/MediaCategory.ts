@@ -20,6 +20,6 @@ export class MediaCategory {
       "showInactive": true,
       "showMyMedia": false
     }})
-    return await response.json()
+    return await response.json() as Category[]
   }
 }

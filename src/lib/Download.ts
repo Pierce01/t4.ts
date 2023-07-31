@@ -1,7 +1,6 @@
 import { Client } from "./Client"
 import { FileDownload } from './utility/Global.js'
 
-
 export const DownloadEndpoint = 'download'
 export class Download {
   private client: Client
@@ -11,12 +10,12 @@ export class Download {
 
   async getFileFromElement(element: string, contentId: number, language: string): Promise<FileDownload> {
     const response = await this.client.call('GET', `${DownloadEndpoint}/${contentId}/${language}/${element}`, null)
-    return response?.ok ? await response.json() : null
+    return await response.json() as FileDownload
   }
 
   async getFileFromElementVersion(element: string, contentId: number, language: string, version: number): Promise<FileDownload> {
     const response = await this.client.call('GET', `${DownloadEndpoint}/${contentId}/${language}/${version}/${element}`, null)
-    return response?.ok ? await response.json() : null
+    return await response.json() as FileDownload
   }
 }
 

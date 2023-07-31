@@ -10,12 +10,12 @@ export class Content {
 
   async getVersions(contentId: number, language: string): Promise<ContentDTO[]> {
     const response = await this.client.call('GET', `${ContentEndpoint}/${contentId}/${language}/version`, null)
-    return response?.ok ? await response.json() : null
+    return await response.json() as ContentDTO[]
   }
 
   async get(contentId: number, language: string, sectionId: number): Promise<ContentDTO> {
     const response = await this.client.call('GET', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, null)
-    return response?.ok ? await response.json() : null
+    return await response.json() as ContentDTO
   }
 
   async getWithoutSection(contentId: number, language: string, version?: string) {
