@@ -442,3 +442,63 @@ export function MediaUploadData(data: MediaUpload): MediaData {
     categories: String(data.categoryID)
   }
 }
+
+export interface Read {
+  section: SectionMinimum
+  recursionDepth: number
+  activeNode: number
+  mode?: string
+  override?: number
+  mirrorStructure?: boolean
+  showContentInfo: boolean
+  showWidget?: boolean
+  onlySectionsAllowingContents?: boolean
+  openNodes: number[]
+  showLinkSections?: boolean
+  showFullTree?: boolean
+  showAllSections: boolean
+  expandCollapseAllChildren: boolean
+  restrictedToPermitedSections: boolean
+  language?: string
+  channel?: number
+  id?: number
+  valid?: boolean
+  asShowInactive?: boolean
+  asShowHidden?: boolean
+  asExplode?: boolean
+}
+
+export interface SectionMinimum {
+  id: number
+  channel?: number
+  language: string
+}
+
+export interface HierarchySection {
+  id: number
+  names: Elements
+  hasChildren: boolean
+  open: boolean
+  getcountContentApproved: number
+  getcountContentPending: number
+  getcountContentInactive: number
+  visible: boolean
+  archive: boolean
+  seoCheckingResult: number
+  accessibilityCheckingResult: number
+  status: number
+  icon: string
+  mirrorType: string
+  subsections: HierarchySection[]
+  link: boolean
+  lastModified: string
+  printSequence: number
+  language: string
+  showOptionsMenu: boolean
+  path: string
+  enablePublish: boolean
+  allowUserModifySections: boolean
+  name: string
+  publishEnabled: boolean
+  userAllowedModifySections: boolean
+}

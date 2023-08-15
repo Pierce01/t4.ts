@@ -16,6 +16,7 @@
     }
   },
   "main": "./cjs/index.js",
+  "module": "./mjs/index.js",
   "dependencies": {
     "node-fetch": "^3.3.1"
   },
