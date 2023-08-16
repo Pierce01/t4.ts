@@ -20,7 +20,7 @@ export class Client {
   mediaCategory: MediaCategory
   mediaType: MediaType
   download: Download
-  constructor(url: String, token: String) {
+  constructor(url: string, token: string) {
     this.url = url
     this.token = token
 
