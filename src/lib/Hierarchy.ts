@@ -34,9 +34,14 @@ export class Hierarchy {
     return await response.json() 
   }
 
-  async delete(section:number | SectionDTO, isMandatory?: boolean) {
-    const id = typeof section == 'number' ? section : section.id
+  async delete(id: number, isMandatory?: boolean) {
     const response = await this.client.call('DELETE', `${HierarchyEndpoint}/${id}${isMandatory ? '?mandatory=true' : ''}`, null)
+    return response?.ok
+  }
+
+  async update(id: number, language: string, options: Partial<SectionDTO>) {
+    let section = await this.get(id, language)
+    const response = await this.client.call('PUT', `${HierarchyEndpoint}/${id}/${language}`, { body: Object.assign({}, section, options) })
     return response?.ok
   }
 }
