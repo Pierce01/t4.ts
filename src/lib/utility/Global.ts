@@ -444,7 +444,7 @@ export function MediaUploadData(data: MediaUpload): MediaData {
 }
 
 export interface Read {
-  section: SectionMinimum
+  section: HierarchyNodeDTO
   recursionDepth: number
   activeNode: number
   mode?: string
@@ -468,9 +468,9 @@ export interface Read {
   asExplode?: boolean
 }
 
-export interface SectionMinimum {
+export interface HierarchyNodeDTO {
   id: number
-  channel?: number
+  channel: number
   language: string
 }
 
