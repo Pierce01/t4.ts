@@ -1,7 +1,7 @@
 import { Client, batcher, chunk } from "../esm/index.js"
 import * as fs from 'fs'
 
-const config = JSON.parse(fs.readFileSync('../config.json', 'utf-8'))
+const config = JSON.parse(fs.readFileSync('../../config.json', 'utf-8'))
 const { media } = new Client(config.url, config.token)
 
 await media.add({

@@ -1,7 +1,7 @@
 {
-  "name": "t4ts",
+  "name": "t4.ts",
   "version": "0.0.1",
-  "description": "A simple terminalfour web api wrapper.",
+  "description": "TypeScript API Library for TerminalFour",
   "type": "module",
   "exports": {
     "require": "./cjs/index.js",
@@ -17,10 +17,20 @@
   },
   "main": "./cjs/index.js",
   "module": "./mjs/index.js",
-  "dependencies": {
-    "node-fetch": "^3.3.1"
-  },
   "scripts": {
     "build": "npx tsc --module es2022 --outDir esm/ && npx tsc --module commonjs --outDir cjs/"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pierce01/t4.ts.git"
+  },
+  "keywords": [
+    "TerminalFour"
+  ],
+  "author": "Pierce Harriz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pierce01/t4.ts/issues"
+  },
+  "homepage": "https://github.com/Pierce01/t4.ts#readme"
 }
