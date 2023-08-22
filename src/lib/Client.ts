@@ -7,31 +7,34 @@ import { Media } from "./Media.js"
 import { MediaCategory } from "./MediaCategory.js"
 import { MediaType } from "./MediaType.js"
 import { Download } from "./Download.js"
+import { FormBuilder } from "./FormBuilder.js"
 
 export class Client {
   url: String
   private token: String
 
-  hierarchy: Hierarchy
-  profile: Profile
   content: Content
   contentType: ContentType
+  download: Download
+  formBuilder: FormBuilder
+  hierarchy: Hierarchy
   media: Media
   mediaCategory: MediaCategory
   mediaType: MediaType
-  download: Download
+  profile: Profile
   constructor(url: string, token: string) {
     this.url = url
     this.token = token
 
-    this.hierarchy = new Hierarchy(this)
-    this.profile = new Profile(this)
     this.content = new Content(this)
     this.contentType = new ContentType(this)
+    this.download = new Download(this)
+    this.formBuilder = new FormBuilder(this)
+    this.hierarchy = new Hierarchy(this)
     this.media = new Media(this)
     this.mediaCategory = new MediaCategory(this)
     this.mediaType = new MediaType(this)
-    this.download = new Download(this)
+    this.profile = new Profile(this)
   }
   
   async call(method: string, endpoint: string, options: any) {

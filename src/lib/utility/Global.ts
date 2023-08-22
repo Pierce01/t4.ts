@@ -517,3 +517,31 @@ export interface HierarchyContentResponse {
   lastModifiedBy: string,
   expired: boolean
 }
+
+export interface FormBuilderResponseDTO {
+  draw: number
+  recordsTotal: number
+  recordsFiltered: number
+  data: FormDTO[]
+}
+
+export interface FormDTO {
+  id: number
+  name: string
+  lastModified: number
+  submissionSectionId: number
+  restricted: boolean
+  incompleteMappings: boolean
+  usage: FormUsageDTO[]
+  description?: string
+}
+
+export interface FormUsageDTO {
+  formId: number
+  assetId: number
+  language: string
+  element: string
+  type: string
+  sectionId: number
+  name: string
+}
