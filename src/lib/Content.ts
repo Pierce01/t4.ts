@@ -13,7 +13,7 @@ export class Content {
     return await response.json() as ContentDTO[]
   }
 
-  async get(contentId: number, language: string, sectionId: number): Promise<ContentDTO> {
+  async get(contentId: number, sectionId: number, language: string): Promise<ContentDTO> {
     const response = await this.client.call('GET', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, null)
     return await response.json() as ContentDTO
   }
@@ -22,5 +22,10 @@ export class Content {
     if (!version) version = (await this.getVersions(contentId, language))[0].version
     const response = await this.client.call('GET', `${ContentEndpoint}/${contentId}/${language}/version/${version}`, null)
     return response?.ok ? await response.json() : null
-  }  
+  }
+
+  async delete(contentId: number, sectionId: number, language: string) {
+    const response = await this.client.call('DELETE', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, null)
+    return response?.ok 
+  }
 }

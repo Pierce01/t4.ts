@@ -443,7 +443,7 @@ export function MediaUploadData(data: MediaUpload): MediaData {
   }
 }
 
-export interface Read {
+export interface ReadDTO {
   section: HierarchyNodeDTO
   recursionDepth: number
   activeNode: number
@@ -474,7 +474,7 @@ export interface HierarchyNodeDTO {
   language: string
 }
 
-export interface HierarchySection {
+export interface HierarchyResponse {
   id: number
   names: Elements
   hasChildren: boolean
@@ -489,7 +489,7 @@ export interface HierarchySection {
   status: number
   icon: string
   mirrorType: string
-  subsections: HierarchySection[]
+  subsections: HierarchyResponse[]
   link: boolean
   lastModified: string
   printSequence: number
@@ -501,4 +501,19 @@ export interface HierarchySection {
   name: string
   publishEnabled: boolean
   userAllowedModifySections: boolean
+}
+
+export interface HierarchyContentResponseDTO {
+  id: number,
+  contents: HierarchyContentResponse[],
+  path: string
+}
+
+export interface HierarchyContentResponse {
+  id: number,
+  name: string,
+  status: string,
+  lastModified: Date,
+  lastModifiedBy: string,
+  expired: boolean
 }

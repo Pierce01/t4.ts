@@ -1,2 +1,5 @@
 src/
 examples/
+
+setup.bat
+tsconfig.json
