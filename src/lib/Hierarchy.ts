@@ -1,5 +1,5 @@
 import { Client } from './Client.js'
-import { SectionDTO, ReadDTO, HierarchyResponse, ContentDTO, HierarchyContentResponseDTO } from './utility/Global.js'
+import { SectionDTO, ReadDTO, HierarchyResponse, HierarchyContentResponseDTO } from './utility/Global.js'
 
 export const HierarchyEndpoint = 'hierarchy'
 export class Hierarchy {
