@@ -1,5 +1,5 @@
-import { Client } from "./Client"
-import { Category } from "./utility/Global"
+import { Client } from "./Client.js"
+import { Category } from "./utility/Global.js"
 
 export const MediaCategoryEndpoint = 'mediacategory'
 export class MediaCategory {

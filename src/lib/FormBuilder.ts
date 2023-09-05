@@ -1,5 +1,5 @@
-import { Client } from "./Client"
-import { FormBuilderResponseDTO } from "./utility/Global"
+import { Client } from "./Client.js"
+import { FormBuilderResponseDTO } from "./utility/Global.js"
 
 export const FormBuilderEndpoint = 'formbuilder'
 export class FormBuilder {

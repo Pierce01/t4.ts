@@ -1,6 +1,6 @@
 {
   "name": "t4.ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "TypeScript API Library for TerminalFour",
   "type": "module",
   "exports": {
@@ -32,5 +32,11 @@
   "bugs": {
     "url": "https://github.com/Pierce01/t4.ts/issues"
   },
-  "homepage": "https://github.com/Pierce01/t4.ts#readme"
+  "homepage": "https://github.com/Pierce01/t4.ts#readme",
+  "devDependencies": {
+    "typedoc": "^0.25.1"
+  },
+  "dependencies": {
+    "typedoc-plugin-missing-exports": "^2.1.0"
+  }
 }

@@ -1,2 +1,4 @@
 /cjs
 /esm
+/node_modules
+/.vscode

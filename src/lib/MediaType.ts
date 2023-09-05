@@ -1,4 +1,4 @@
-import { Client } from "./Client"
+import { Client } from "./Client.js"
 
 export const MediaTypeEndpoint = 'mediaType'
 export class MediaType {

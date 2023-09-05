@@ -1,5 +1,7 @@
 src/
 examples/
+docs/
+.vscode/
 
 setup.bat
 tsconfig.json

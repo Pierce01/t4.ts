@@ -1,4 +1,4 @@
-import { Client } from "./Client"
+import { Client } from "./Client.js"
 import { FileDownload } from './utility/Global.js'
 
 export const DownloadEndpoint = 'download'
