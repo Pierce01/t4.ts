@@ -10,18 +10,18 @@ export class Content {
 
   async getVersions(contentId: number, language: string): Promise<ContentDTO[]> {
     const response = await this.client.call('GET', `${ContentEndpoint}/${contentId}/${language}/version`, null)
-    return await response.json() as ContentDTO[]
+    return await response.json()
   }
 
   async get(contentId: number, sectionId: number, language: string): Promise<ContentDTO> {
     const response = await this.client.call('GET', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, null)
-    return await response.json() as ContentDTO
+    return await response.json()
   }
 
   async getWithoutSection(contentId: number, language: string, version?: string) {
     if (!version) version = (await this.getVersions(contentId, language))[0].version
     const response = await this.client.call('GET', `${ContentEndpoint}/${contentId}/${language}/version/${version}`, null)
-    return response?.ok ? await response.json() : null
+    return await response.json()
   }
 
   async delete(contentId: number, sectionId: number, language: string) {

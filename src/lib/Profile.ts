@@ -10,7 +10,7 @@ export class Profile {
 
   async get(): Promise<UserProfileView> {
     const response = await this.client.call('GET', ProfileEndpoint, null)
-    return await response.json() as UserProfileView
+    return await response.json()
   }
 
   async update(body: Partial<UserProfileView>) {
@@ -19,6 +19,6 @@ export class Profile {
     const response = await this.client.call('POST', ProfileEndpoint, {
       body: Object.assign(currentProfile, body),
     })
-    return response?.ok ? await response.json() : false
+    return await response.json()
   }
 }

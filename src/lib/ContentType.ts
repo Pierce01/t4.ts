@@ -14,6 +14,6 @@ export class ContentType {
 
   async listType(contentTypeId: number) {
     const response = await this.clinet.call('GET', `${ContentTypeEndpoint}/type/${contentTypeId}`, null)
-    return response?.ok ? await response.json() : null
+    return await response.json()
   }
 }

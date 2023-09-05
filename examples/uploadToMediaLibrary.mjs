@@ -7,7 +7,8 @@ const { media } = new Client(config.url, config.token)
 await media.add({
   categoryID: 198818,
   name: 'API Test',
-  file: 'C:/Users/Pietce/Desktop/7-12-23/IMG_9824.jpg',
+  file: 'C:/Users/pierc/OneDrive/Desktop/7-12-23/IMG_9951.jpg',
   type: 1,
-  description: 'Misha!!'
+  description: 'Misha!!',
+  fileName: 'test.jpg'
 })

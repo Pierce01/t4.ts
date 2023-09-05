@@ -1,13 +1,13 @@
-import { Elements, UserProfileView } from "./utility/Global.js"
-import { Hierarchy } from "./Hierarchy.js"
-import { Profile } from "./Profile.js"
 import { Content } from "./Content.js"
 import { ContentType } from "./ContentType.js"
+import { Download } from "./Download.js"
+import { Elements, UserProfileView } from "./utility/Global.js"
+import { FormBuilder } from "./FormBuilder.js"
+import { Hierarchy } from "./Hierarchy.js"
 import { Media } from "./Media.js"
 import { MediaCategory } from "./MediaCategory.js"
 import { MediaType } from "./MediaType.js"
-import { Download } from "./Download.js"
-import { FormBuilder } from "./FormBuilder.js"
+import { Profile } from "./Profile.js"
 
 export class Client {
   url: String
