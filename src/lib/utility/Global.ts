@@ -102,7 +102,7 @@ export interface Content {
   contentTypeLock:          Lock;
   elements:                 Elements;
   contentType:              ContentType;
-  types:                    Types;
+  types:                    Type[];
   insertAtIndex:            string;
   sortLock:                 string;
   excludedMirrorSectionIds: string;
@@ -186,12 +186,6 @@ export interface Owner {
   type: string;
 }
 
-export interface Types {
-  id:       string;
-  name:     string;
-  listType: string;
-}
-
 export interface ContentDTO {
   id:                       string;
   contentTypeID:            string;
@@ -223,7 +217,7 @@ export interface ContentDTO {
   elements:                 Elements;
   contentTypeElements?:     Elements;
   contentType:              ContentType;
-  types:                    string;
+  types:                    Type[];
   insertAtIndex:            string;
   sortLock:                 sortLock;
   excludedMirrorSectionIds: string;
