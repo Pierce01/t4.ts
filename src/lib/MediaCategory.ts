@@ -9,7 +9,7 @@ export class MediaCategory {
   }
 
   async list(categoryID: number, language: string | 'en'): Promise<Category[]> {
-    const response = await this.client.call('POST', `${MediaCategoryEndpoint}`, { 
+    const response = await this.client.call('POST', MediaCategoryEndpoint, { 
       body: {
         category: {
           id: categoryID,

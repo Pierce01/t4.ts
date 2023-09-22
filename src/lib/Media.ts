@@ -1,8 +1,9 @@
 import { Client } from './Client.js'
 import { Category, MediaData, MediaItemTableData, MediaRow, MediaUpload, MediaUploadData } from './utility/Global.js'
-import { existsSync, readFileSync } from 'node:fs'
 import { batcher } from './utility/helpers.js'
 import * as path from 'path'
+import { promises } from 'node:fs'
+const { readFile, stat } = promises
 
 export const MediaEndpoint = 'media'
 export class Media {
@@ -31,9 +32,9 @@ export class Media {
     const formData = new FormData()
     const expandedData: MediaData = MediaUploadData(data)
     const filePath = path.resolve(data.file)
-    if (!existsSync(filePath)) throw Error(`File at ${filePath} does not exist.`)
+    if (!await stat(filePath)) throw Error(`File at ${filePath} does not exist.`)
     if (!expandedData.fileName || expandedData.fileName == 'undefined') expandedData.fileName = path.basename(filePath)
-    const blob = new Blob([readFileSync(filePath)])
+    const blob = new Blob([await readFile(filePath)])
     for (let key in expandedData) { key == 'file' ? formData.append('file', blob, expandedData.fileName) : formData.append(key, expandedData[key]) }  
     const response = await this.client.call('POST', `${MediaEndpoint}`, { body: formData })
     return await response.json()

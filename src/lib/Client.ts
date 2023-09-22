@@ -1,13 +1,14 @@
 import { Content } from "./Content.js"
 import { ContentType } from "./ContentType.js"
 import { Download } from "./Download.js"
-import { Elements, UserProfileView } from "./utility/Global.js"
+import { Elements } from "./utility/Global.js"
 import { FormBuilder } from "./FormBuilder.js"
 import { Hierarchy } from "./Hierarchy.js"
 import { Media } from "./Media.js"
 import { MediaCategory } from "./MediaCategory.js"
 import { MediaType } from "./MediaType.js"
 import { Profile } from "./Profile.js"
+import { Upload } from "./Upload.js"
 
 export class Client {
   url: String
@@ -22,6 +23,7 @@ export class Client {
   mediaCategory: MediaCategory
   mediaType: MediaType
   profile: Profile
+  upload: Upload
   constructor(url: string, token: string) {
     this.url = url
     this.token = token
@@ -35,6 +37,7 @@ export class Client {
     this.mediaCategory = new MediaCategory(this)
     this.mediaType = new MediaType(this)
     this.profile = new Profile(this)
+    this.upload = new Upload(this)
   }
   
   async call(method: string, endpoint: string, options: any) {
@@ -60,9 +63,5 @@ export class Client {
     } catch (error) {
       throw Error(`Request failed due to:\n${error}`)
     }
-  }
-
-  async verify(): Promise<UserProfileView> {
-    return await this.profile.get()
   }
 }

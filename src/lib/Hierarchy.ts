@@ -29,7 +29,8 @@ export class Hierarchy {
         }
       }
     })
-    return await response.json()
+    const json = await response.json()
+    return json[0] || json
   }
 
   async getContents(id: number, options?: Partial<ReadDTO>): Promise<HierarchyContentResponseDTO> {

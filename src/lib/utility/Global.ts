@@ -1,3 +1,6 @@
+export const max = 999999
+export const min = 100000
+
 export interface UserProfileView {
   firstName:               string;
   lastName:                string;
@@ -124,7 +127,7 @@ export interface ContentType {
   workflow:             string;
   systemTemplate:       string;
   sharedGroupCount:     string;
-  contentTypeElements:  string;
+  contentTypeElements:  ContentTypeElement[];
   metaMapped:           string;
   lock:                 Lock;
   minAuthLevel:         string;
@@ -218,6 +221,7 @@ export interface ContentDTO {
   contentTypeAccess:        string;
   contentTypeLock:          Lock;
   elements:                 Elements;
+  contentTypeElements?:     Elements;
   contentType:              ContentType;
   types:                    string;
   insertAtIndex:            string;
@@ -545,3 +549,130 @@ export interface FormUsageDTO {
   sectionId: number
   name: string
 }
+
+export interface contenUploadDTO {
+  id?: number
+  channels?: number[]
+  canPublishNow?: boolean
+  canSaveAndApprove?: boolean
+  status: number
+  elements: Elements
+  contentTypeID: number
+  language: string
+  publishDate?: Date | null
+  expiryDate?: Date | null
+  reviewDate?: Date | null
+  archiveSection: any
+  owner: Owner
+  excludedMirrorSectionIds: any[]
+}
+
+export function contentUploadData(options: contenUploadDTO) {
+  const {
+    archiveSection,
+    canPublishNow,
+    canSaveAndApprove,
+    channels,
+    contentTypeID,
+    elements,
+    excludedMirrorSectionIds,
+    expiryDate,
+    language,
+    owner,
+    publishDate,
+    reviewDate,
+    status
+  } = options
+  return {
+    archiveSection,
+    canPublishNow,
+    canSaveAndApprove,
+    channels,
+    contentTypeID,
+    elements,
+    excludedMirrorSectionIds: excludedMirrorSectionIds || [],
+    expiryDate,
+    language,
+    owner: owner || {id: 0, type: "USER"},
+    publishDate,
+    reviewDate,
+    status,
+    id: Math.floor(-Math.abs(Math.random() * (max - min) + min)),
+  }
+}
+
+export interface NewContentDTO {
+  contentType: ContentType
+  channels: number[]
+  types: Type[]
+  canPublishNow: boolean
+  canSaveAndApprove: boolean
+}
+
+export interface ContentTypeElement {
+  id: number
+  contentTypeID: number
+  name: string
+  description: string
+  type: number
+  maxSize: number
+  compulsory: boolean
+  input_method: number
+  listId: number
+  sequence: number
+  alias: string
+  show: boolean
+  binary: boolean
+}
+
+export interface Type {
+  id: number
+  name: string
+  listType: boolean
+}
+
+export interface UploadObject {
+  file: string,
+  filename: string,
+  elementID: string
+}
+
+export interface UploadData {
+  [key: string]: string | Blob,
+  file: Blob,
+  filename: string,
+  elementID: string
+}
+
+export interface UploadDTO {
+  code: string
+  name: string
+}
+
+export interface UploadListDTO {
+  [key: string] : {
+    code: string
+    name: string
+  }
+}
+
+export interface ServerSideLinkData {
+  useDefaultLinkText?: boolean
+  fromSection: number
+  toSection: number
+  fromContent: number
+  toContent: number
+  linkText?: string
+  language: string
+  toLanguage?: string
+  attributes?: any
+  path?: string
+  active: boolean
+}
+
+export interface ServerSideLinkDTO extends ServerSideLinkData {
+  id: number
+  broken: boolean
+}
+
+

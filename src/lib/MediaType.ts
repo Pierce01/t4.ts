@@ -8,7 +8,7 @@ export class MediaType {
   }
 
   async list() {
-    const response = await this.clinet.call('GET', `${MediaTypeEndpoint}`, null)
+    const response = await this.clinet.call('GET', MediaTypeEndpoint, null)
     return await response.json()
   }
 }
