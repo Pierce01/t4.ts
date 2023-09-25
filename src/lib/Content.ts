@@ -75,6 +75,11 @@ export class Content {
     const response = await this.client.call('GET', `${ContentEndpoint}/type/${contentTypeId}/${sectionId}`, null)
     return await response.json()
   }
+
+  async listLinkContent(sectionId: number) {
+    const response = await this.client.call('GET', `${ContentEndpoint}/link/${sectionId}`, null)
+    return await response.json()
+  }
 }
 
 

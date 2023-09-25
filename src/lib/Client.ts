@@ -9,6 +9,7 @@ import { MediaCategory } from "./MediaCategory.js"
 import { MediaType } from "./MediaType.js"
 import { Profile } from "./Profile.js"
 import { Upload } from "./Upload.js"
+import { ServerSideLink } from "./ServerSideLink.js"
 
 export class Client {
   url: String
@@ -23,6 +24,7 @@ export class Client {
   mediaCategory: MediaCategory
   mediaType: MediaType
   profile: Profile
+  serverSideLink: ServerSideLink
   upload: Upload
   constructor(url: string, token: string) {
     this.url = url
@@ -37,6 +39,7 @@ export class Client {
     this.mediaCategory = new MediaCategory(this)
     this.mediaType = new MediaType(this)
     this.profile = new Profile(this)
+    this.serverSideLink = new ServerSideLink(this)
     this.upload = new Upload(this)
   }
   

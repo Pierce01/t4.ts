@@ -655,7 +655,7 @@ export interface ServerSideLinkData {
   fromSection: number
   toSection: number
   fromContent: number
-  toContent: number
+  toContent?: number
   linkText?: string
   language: string
   toLanguage?: string
