@@ -39,7 +39,7 @@ export class Content {
     return await response.json()
   }
 
-  async getWithoutSection(contentId: number, language: string, version?: string) {
+  async getWithoutSection(contentId: number, language: string, version?: string): Promise<ContentDTO> {
     if (!version) version = (await this.getVersions(contentId, language))[0].version
     const response = await this.client.call('GET', `${ContentEndpoint}/${contentId}/${language}/version/${version}`, null)
     return await response.json()

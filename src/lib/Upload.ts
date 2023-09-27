@@ -20,17 +20,9 @@ export class Upload {
     const filePath = path.resolve(file)
     if (!filename) filename = path.basename(filePath)
     const blob = new Blob([await readFile(filePath)])
-    const transformedData: UploadData = {
-      filename,
-      file: blob,
-      elementID
-    }
+    const data: UploadData = { filename, file: blob, elementID }
     const formData = new FormData()
-    for (let key in transformedData) { 
-      key == 'file' 
-      ? formData.append(key, transformedData[key], transformedData.filename) 
-      : formData.append(key, transformedData[key]) 
-    }
+    for (let key in data) { key == 'file' ? formData.append(key, data[key], data.filename) : formData.append(key, data[key])}
     const response = await this.client.call('POST', UploadEndpoint, { body: formData })
     return await response.json()
   }

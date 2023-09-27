@@ -5,9 +5,33 @@ export const ServerSideLinkEndpoint = 'ssl'
 export class ServerSideLink {
   private client: Client
   id: number
+  util: { getFromSection: (sectionId: number, language?: string) => Promise<ServerSideLinkDTO[]> }
+  linkId: number
+  sslRegex: RegExp
   constructor(client: Client) {
     this.client = client
     this.id = 0
+    this.linkId = 14
+    this.sslRegex = /sslink_id="(\d+)"/
+    this.util = {
+      getFromSection: async (sectionId: number, language: string = 'en'): Promise<ServerSideLinkDTO[]> => {
+        const { hierarchy, content } = this.client
+        const serverSideLinks: ServerSideLinkDTO[] = []
+        const contentIds = (await hierarchy.getContents(sectionId)).contents.map(content => content.id)
+        await Promise.all(contentIds.map(async contentId => {
+          const { types, elements, id } = await content.get(contentId, sectionId, language)
+          if (!types.some(entry => entry.id == this.linkId)) return
+          const keys = Object.keys(elements).filter(name => name.split(':').pop() == this.linkId.toString())
+          const maxId = Math.max(...keys.map(key => elements[key].match(this.sslRegex)?.[1]).filter(entry => entry != null).map(Number))
+          if (!maxId) return
+          for (let i = 1; i <= maxId; i++) {
+            const link = await this.get(i, sectionId, parseInt(id))
+            if (link.id) serverSideLinks.push(link)
+          }
+        }))
+        return serverSideLinks
+      }
+    }
   }
 
   async set(options: ServerSideLinkData) {

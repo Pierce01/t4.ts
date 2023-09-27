@@ -429,7 +429,7 @@ export function MediaUploadData(data: MediaUpload): MediaData {
     name: data.name,
     description: data.description,
     type: String(data.type),
-    file: new Blob([data.file]),
+    file: new Blob(),
     syntaxType: String(data.syntaxType || 0),
     myMedia: String(data.myMedia || 0),
     elements: JSON.stringify({'keywords#9:undefined': `${data.keywords?.join(', ') || ''}`}),
