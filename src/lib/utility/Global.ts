@@ -101,7 +101,7 @@ export interface Content {
   contentTypeAccess:        string;
   contentTypeLock:          Lock;
   elements:                 Elements;
-  contentType:              ContentType;
+  contentType:              ContentTypeDTO;
   types:                    Type[];
   insertAtIndex:            string;
   sortLock:                 string;
@@ -115,7 +115,7 @@ export interface AlternativeLanguages {
   name:     string;
 }
 
-export interface ContentType {
+export interface ContentTypeDTO {
   id:                   string;
   name:                 string;
   description:          string;
@@ -216,7 +216,7 @@ export interface ContentDTO {
   contentTypeLock:          Lock;
   elements:                 Elements;
   contentTypeElements?:     Elements;
-  contentType:              ContentType;
+  contentType:              ContentTypeDTO;
   types:                    Type[];
   insertAtIndex:            string;
   sortLock:                 sortLock;
@@ -596,7 +596,7 @@ export function contentUploadData(options: contenUploadDTO) {
 }
 
 export interface NewContentDTO {
-  contentType: ContentType
+  contentType: ContentTypeDTO
   channels: number[]
   types: Type[]
   canPublishNow: boolean
