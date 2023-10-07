@@ -669,4 +669,82 @@ export interface ServerSideLinkDTO extends ServerSideLinkData {
   broken: boolean
 }
 
+export interface PredefinedListDTO {
+  id: number
+  language: string
+  name: string
+  description: string
+  isForcedLanguage: boolean
+  isDefaultLanguage: boolean
+  items: ListItem[]
+  duplicate: boolean
+  listEntriesWithListSubLists: any[]
+  cteWithListsAsElements: CteWithListsAsElement[]
+  formsUsingThisList: FormDTO[]
+  sortingEnabled: boolean
+  listOverriddenInAnotherLanguage: boolean
+  defaultLanguageSetInAnotherLanguage: boolean
+  sortType: number
+  editable: boolean
+  primaryGroup: ListPrimaryGroup
+  sharedGroups: any[]
+  sharedGroupCount: number
+  fullAccess: boolean
+}
+
+export interface ListItem {
+  name: string
+  value: string
+  sequence: number
+  id: number
+  isSelected: boolean
+  sublist: number
+  listId: number
+}
+
+export interface CteWithListsAsElement {
+  name: string
+  description: string
+  typeID: number
+  type: ListType
+  maxSize: number
+  compulsory: boolean
+  sequence: number
+  alias: string
+  show: boolean
+  id: number
+  contentType: number
+  listId: number
+}
+
+export interface ListType {
+  id: number
+  name: string
+  description: string
+  storageMethod: number
+  binary: boolean
+  elementClass: string
+  inputClass: string
+  extensionChecking: boolean
+  enabled: boolean
+}
+
+export interface ListPrimaryGroup {
+  group: Group
+  fullAccess: boolean
+  id: number
+  name: string
+}
+
+export interface Group {
+  id: number
+  name: string
+  description: string
+  emailAddress: string
+  createDate: number
+  enabled: boolean
+  ldap: boolean
+  defaultChannel: number
+  deleted: boolean
+}
 

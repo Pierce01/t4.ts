@@ -50,15 +50,17 @@ export class Content {
     return response?.ok 
   }
 
-  async create(sectionId: number, options: contenUploadDTO) {
+  async create(sectionId: number, options: contenUploadDTO, isFormatted: boolean = false) {
     const {
       channels,
       canPublishNow,
       canSaveAndApprove,
       contentType
     } = await this.prePopulateContentInfo(options.contentTypeID, sectionId)
-    const formattedElementNames = this.util.getElementNames(contentType.contentTypeElements)
-    options.elements = this.util.lazyMap(options.elements, formattedElementNames)
+    if(!isFormatted) {
+      const formattedElementNames = this.util.getElementNames(contentType.contentTypeElements)
+      options.elements = this.util.lazyMap(options.elements, formattedElementNames)
+    }
     const uploadData = contentUploadData({
       channels,
       canPublishNow,

@@ -7,6 +7,7 @@ import { Hierarchy } from "./Hierarchy.js"
 import { Media } from "./Media.js"
 import { MediaCategory } from "./MediaCategory.js"
 import { MediaType } from "./MediaType.js"
+import { List } from "./List.js"
 import { Profile } from "./Profile.js"
 import { Upload } from "./Upload.js"
 import { ServerSideLink } from "./ServerSideLink.js"
@@ -23,6 +24,7 @@ export class Client {
   media: Media
   mediaCategory: MediaCategory
   mediaType: MediaType
+  list: List
   profile: Profile
   serverSideLink: ServerSideLink
   upload: Upload
@@ -38,6 +40,7 @@ export class Client {
     this.media = new Media(this)
     this.mediaCategory = new MediaCategory(this)
     this.mediaType = new MediaType(this)
+    this.list = new List(this)
     this.profile = new Profile(this)
     this.serverSideLink = new ServerSideLink(this)
     this.upload = new Upload(this)
