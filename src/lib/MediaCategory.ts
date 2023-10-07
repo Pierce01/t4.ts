@@ -3,7 +3,7 @@ import { Category } from "./utility/Global.js"
 
 export const MediaCategoryEndpoint = 'mediacategory'
 export class MediaCategory {
-  client: Client
+  private client: Client
   constructor(client: Client) {
     this.client = client
   }

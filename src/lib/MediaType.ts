@@ -2,7 +2,7 @@ import { Client } from "./Client.js"
 
 export const MediaTypeEndpoint = 'mediaType'
 export class MediaType {
-  clinet: Client
+  private clinet: Client
   constructor(client:Client) {
     this.clinet = client
   }

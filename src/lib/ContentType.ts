@@ -3,7 +3,7 @@ import { ContentTypeDTO } from "./utility/Global.js"
 
 export const ContentTypeEndpoint = 'contenttype'
 export class ContentType {
-  clinet: Client
+  private clinet: Client
   constructor(client:Client) {
     this.clinet = client
   }

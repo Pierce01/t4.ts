@@ -7,7 +7,7 @@ const { readFile, stat } = promises
 
 export const MediaEndpoint = 'media'
 export class Media {
-  client: Client
+  private client: Client
   util: { getMediaIDs: (parentID: number, arrLimit?: number, reqTimeout?: number) => Promise<number[]> }
   constructor(client:Client) {
     this.client = client

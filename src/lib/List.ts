@@ -3,7 +3,7 @@ import { PredefinedListDTO } from "./utility/Global.js"
 
 export const ListEndpoint = 'list'
 export class List {
-  client: Client
+  private client: Client
   constructor(client:Client) {
     this.client = client
   }
