@@ -1,5 +1,5 @@
 import { Client } from './Client.js'
-import { ContentDTO, contenUploadDTO, NewContentDTO, ContentTypeElement, Elements, contentUploadData } from './utility/Global.js'
+import { ContentDTO, contenUploadDTO, NewContentDTO, ContentTypeElement, Elements, contentUploadData, VersionDTO } from './utility/Global.js'
 
 export const ContentEndpoint = 'content'
 export class Content {
@@ -29,9 +29,13 @@ export class Content {
     }
   }
 
-  async getVersions(contentId: number, language: string): Promise<ContentDTO[]> {
+  async getVersions(contentId: number, language: string): Promise<VersionDTO[]> {
     const response = await this.client.call('GET', `${ContentEndpoint}/${contentId}/${language}/version`, null)
-    return await response.json()
+    let jsonResp = await response.json()
+    if (jsonResp.errorText) {
+      jsonResp = await this.client.version.get(contentId, language)
+    }
+    return jsonResp
   }
 
   async get(contentId: number, sectionId: number, language: string): Promise<ContentDTO> {

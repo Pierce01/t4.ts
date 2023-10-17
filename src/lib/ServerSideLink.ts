@@ -4,13 +4,11 @@ import { ServerSideLinkData, ServerSideLinkDTO } from "./utility/Global.js"
 export const ServerSideLinkEndpoint = 'ssl'
 export class ServerSideLink {
   private client: Client
-  id: number
   util: { getFromSection: (sectionId: number, language?: string) => Promise<ServerSideLinkDTO[]> }
   linkId: number
   sslRegex: RegExp
   constructor(client: Client) {
     this.client = client
-    this.id = 0
     this.linkId = 14
     this.sslRegex = /sslink_id="(\d+)"/
     this.util = {
@@ -39,8 +37,7 @@ export class ServerSideLink {
     if (!destinationSection) throw Error(`${options.toSection} doesn't exist!`)
     if (!options.path) options.path = destinationSection.path
     if (!options.toContent) options.toContent = 0
-    const response: ServerSideLinkDTO = await (await this.client.call('PUT', ServerSideLinkEndpoint, { body: { id: ++this.id, ...options } })).json()
-    if (response?.id) this.id = ++response.id
+    const response: ServerSideLinkDTO = await (await this.client.call('PUT', ServerSideLinkEndpoint, { body: { ...options } })).json()
     return response
   } 
 
@@ -48,9 +45,10 @@ export class ServerSideLink {
   //   TODO
   // }
 
-  // async modify() {
-  //   TODO
-  // }
+  async modify(linkId: number, options: ServerSideLinkData) {
+    const response = await this.client.call('PUT', `${ServerSideLinkEndpoint}/${linkId}`, { body: { ...options } })
+    return await response.json()
+  }
 
   async get(linkId: number, sectionId: number, contentId: number, language: string = 'en'): Promise<ServerSideLinkDTO> {
     const response = await this.client.call('GET', `${ServerSideLinkEndpoint}/${linkId}/${language}/${sectionId}/${contentId}`, null)

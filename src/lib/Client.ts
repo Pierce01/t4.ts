@@ -11,6 +11,7 @@ import { List } from "./List.js"
 import { Profile } from "./Profile.js"
 import { Upload } from "./Upload.js"
 import { ServerSideLink } from "./ServerSideLink.js"
+import { Version } from "./Version.js"
 
 export class Client {
   url: String
@@ -28,6 +29,7 @@ export class Client {
   profile: Profile
   serverSideLink: ServerSideLink
   upload: Upload
+  version: Version
   constructor(url: string, token: string) {
     this.url = url
     this.token = token
@@ -44,6 +46,7 @@ export class Client {
     this.profile = new Profile(this)
     this.serverSideLink = new ServerSideLink(this)
     this.upload = new Upload(this)
+    this.version = new Version(this)
   }
   
   async call(method: string, endpoint: string, options: any) {

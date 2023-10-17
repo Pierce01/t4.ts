@@ -149,11 +149,11 @@ export interface FileDownload {
   cleanUp?: boolean
   contentID?: number
   language?: string
-  version?: Version
+  version?: FileVersion
   element?: string
 }
 
-export interface Version {
+export interface FileVersion {
   version: string
   subMinor: number
   major: number
@@ -748,3 +748,14 @@ export interface Group {
   deleted: boolean
 }
 
+export interface VersionDTO {
+  language: string
+  version: string
+  name: string
+  lastModified: number
+  lastModifierName: string
+  owner: number
+  lastModifiedBy: number
+  previousVersion: string
+  status: number
+}
