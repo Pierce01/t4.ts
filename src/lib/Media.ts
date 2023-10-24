@@ -2,8 +2,7 @@ import { Client } from './Client.js'
 import { Category, MediaData, MediaItemTableData, MediaRow, MediaUpload, MediaUploadData } from './utility/Global.js'
 import { batcher } from './utility/helpers.js'
 import * as path from 'path'
-import { promises } from 'node:fs'
-const { readFile, stat } = promises
+import { readFile, stat } from 'fs/promises'
 
 export const MediaEndpoint = 'media'
 export class Media {

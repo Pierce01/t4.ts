@@ -41,9 +41,12 @@ export class ServerSideLink {
     return response
   } 
 
-  // async delete() {
-  //   TODO
-  // }
+  async delete(options: ServerSideLinkData) {
+    const response = await this.client.call('DELETE', ServerSideLinkEndpoint, {
+      body: options
+    })
+    return await response.text()
+  }
 
   async modify(linkId: number, options: ServerSideLinkData) {
     const response = await this.client.call('PUT', `${ServerSideLinkEndpoint}/${linkId}`, { body: { ...options } })

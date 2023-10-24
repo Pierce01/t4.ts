@@ -54,7 +54,7 @@ export class Content {
     return response?.ok 
   }
 
-  async create(sectionId: number, options: contenUploadDTO, isFormatted: boolean = false) {
+  async create(sectionId: number, options: contenUploadDTO, isFormatted: boolean = false): Promise<ContentDTO> {
     const {
       channels,
       canPublishNow,
@@ -86,7 +86,14 @@ export class Content {
     const response = await this.client.call('GET', `${ContentEndpoint}/link/${sectionId}`, null)
     return await response.json()
   }
+
+  async modify(contentId: number, sectionId: number, options: ContentDTO, language: string = 'en'): Promise<ContentDTO> {
+    let existingContent = await this.get(contentId, sectionId, language)
+    if (!existingContent) throw Error(`Content ${contentId} in section ${sectionId} does not exist`)
+    existingContent.elements = { ...existingContent.elements, ...options.elements }
+    const response = await this.client.call('POST', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, {
+      body: existingContent
+    })
+    return await response.json()
+  }
 }
-
-
-
