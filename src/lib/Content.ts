@@ -90,9 +90,15 @@ export class Content {
   async modify(contentId: number, sectionId: number, options: ContentDTO, language: string = 'en'): Promise<ContentDTO> {
     let existingContent = await this.get(contentId, sectionId, language)
     if (!existingContent) throw Error(`Content ${contentId} in section ${sectionId} does not exist`)
-    existingContent.elements = { ...existingContent.elements, ...options.elements }
     const response = await this.client.call('POST', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, {
-      body: existingContent
+      body: {
+        ...existingContent,
+        ...options,
+        elements: {
+          ...existingContent.elements, 
+          ...options.elements
+        }
+      }
     })
     return await response.json()
   }
