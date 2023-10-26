@@ -3,13 +3,13 @@ import { VersionDTO } from "./utility/Global.js"
 
 export const VersionEndpoint = 'version'
 export class Version {
-  private clinet: Client
+  private client: Client
   constructor(client:Client) {
-    this.clinet = client
+    this.client = client
   }
 
-  async get(contentId: number, language: string = 'en'): Promise<VersionDTO[]> {
-    const response = await this.clinet.call('GET', `${VersionEndpoint}/${contentId}/${language}`, null)
+  async get(contentId: number, language: string = this.client.language): Promise<VersionDTO[]> {
+    const response = await this.client.call('GET', `${VersionEndpoint}/${contentId}/${language}`, null)
     return await response.json()
   }
 }

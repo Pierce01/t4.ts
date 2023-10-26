@@ -25,14 +25,16 @@ export class Client {
   media: Media
   mediaCategory: MediaCategory
   mediaType: MediaType
+  language: string
   list: List
   profile: Profile
   serverSideLink: ServerSideLink
   upload: Upload
   version: Version
-  constructor(url: string, token: string) {
+  constructor(url: string, token: string, language: string = 'en') {
     this.url = url
     this.token = token
+    this.language = language
 
     this.content = new Content(this)
     this.contentType = new ContentType(this)

@@ -8,7 +8,7 @@ export class List {
     this.client = client
   }
 
-  async get(listId: number, language: string = 'en'): Promise<PredefinedListDTO> {
+  async get(listId: number, language: string = this.client.language): Promise<PredefinedListDTO> {
     const response = await this.client.call('GET', `${ListEndpoint}/${listId}/${language}`, null)
     return await response.json()
   }

@@ -29,7 +29,7 @@ export class Content {
     }
   }
 
-  async getVersions(contentId: number, language: string): Promise<VersionDTO[]> {
+  async getVersions(contentId: number, language: string = this.client.language): Promise<VersionDTO[]> {
     const response = await this.client.call('GET', `${ContentEndpoint}/${contentId}/${language}/version`, null)
     let jsonResp = await response.json()
     if (jsonResp.errorText) {
@@ -38,18 +38,18 @@ export class Content {
     return jsonResp
   }
 
-  async get(contentId: number, sectionId: number, language: string): Promise<ContentDTO> {
+  async get(contentId: number, sectionId: number, language: string = this.client.language): Promise<ContentDTO> {
     const response = await this.client.call('GET', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, null)
     return await response.json()
   }
 
-  async getWithoutSection(contentId: number, language: string, version?: string): Promise<ContentDTO> {
+  async getWithoutSection(contentId: number, version?: string, language: string = this.client.language): Promise<ContentDTO> {
     if (!version) version = (await this.getVersions(contentId, language))[0].version
     const response = await this.client.call('GET', `${ContentEndpoint}/${contentId}/${language}/version/${version}`, null)
     return await response.json()
   }
 
-  async delete(contentId: number, sectionId: number, language: string) {
+  async delete(contentId: number, sectionId: number, language: string = this.client.language) {
     const response = await this.client.call('DELETE', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, null)
     return response?.ok 
   }
@@ -77,7 +77,7 @@ export class Content {
     return await response.json()
   }
 
-  async prePopulateContentInfo(contentTypeId: number, sectionId:number): Promise<NewContentDTO> {
+  async prePopulateContentInfo(contentTypeId: number, sectionId: number): Promise<NewContentDTO> {
     const response = await this.client.call('GET', `${ContentEndpoint}/type/${contentTypeId}/${sectionId}`, null)
     return await response.json()
   }
@@ -87,7 +87,7 @@ export class Content {
     return await response.json()
   }
 
-  async modify(contentId: number, sectionId: number, options: ContentDTO, language: string = 'en'): Promise<ContentDTO> {
+  async modify(contentId: number, sectionId: number, options: ContentDTO, language: string = this.client.language): Promise<ContentDTO> {
     let existingContent = await this.get(contentId, sectionId, language)
     if (!existingContent) throw Error(`Content ${contentId} in section ${sectionId} does not exist`)
     const response = await this.client.call('POST', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, {

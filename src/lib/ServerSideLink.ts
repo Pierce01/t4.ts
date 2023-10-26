@@ -12,7 +12,7 @@ export class ServerSideLink {
     this.linkId = 14
     this.sslRegex = /sslink_id="(\d+)"/
     this.util = {
-      getFromSection: async (sectionId: number, language: string = 'en'): Promise<ServerSideLinkDTO[]> => {
+      getFromSection: async (sectionId: number, language: string = this.client.language): Promise<ServerSideLinkDTO[]> => {
         const { hierarchy, content } = this.client
         const serverSideLinks: ServerSideLinkDTO[] = []
         const contentIds = (await hierarchy.getContents(sectionId)).contents.map(content => content.id)
@@ -37,23 +37,21 @@ export class ServerSideLink {
     if (!destinationSection) throw Error(`${options.toSection} doesn't exist!`)
     if (!options.path) options.path = destinationSection.path
     if (!options.toContent) options.toContent = 0
-    const response: ServerSideLinkDTO = await (await this.client.call('PUT', ServerSideLinkEndpoint, { body: { ...options } })).json()
+    const response: ServerSideLinkDTO = await (await this.client.call('PUT', ServerSideLinkEndpoint, { body: options })).json()
     return response
   } 
 
   async delete(options: ServerSideLinkData) {
-    const response = await this.client.call('DELETE', ServerSideLinkEndpoint, {
-      body: options
-    })
+    const response = await this.client.call('DELETE', ServerSideLinkEndpoint, { body: options })
     return await response.text()
   }
 
   async modify(linkId: number, options: ServerSideLinkData) {
-    const response = await this.client.call('PUT', `${ServerSideLinkEndpoint}/${linkId}`, { body: { ...options } })
+    const response = await this.client.call('PUT', `${ServerSideLinkEndpoint}/${linkId}`, { body: options })
     return await response.json()
   }
 
-  async get(linkId: number, sectionId: number, contentId: number, language: string = 'en'): Promise<ServerSideLinkDTO> {
+  async get(linkId: number, sectionId: number, contentId: number, language: string = this.client.language): Promise<ServerSideLinkDTO> {
     const response = await this.client.call('GET', `${ServerSideLinkEndpoint}/${linkId}/${language}/${sectionId}/${contentId}`, null)
     try {
       return await response.json()
@@ -62,12 +60,12 @@ export class ServerSideLink {
     }
   }
 
-  async getSelectedContentsLinks(ids: number[], language: string = 'en') {
+  async getSelectedContentsLinks(ids: number[], language: string = this.client.language) {
     const response = await this.client.call('POST', `${ServerSideLinkEndpoint}/${language}`, { body: ids })
     return await response.json()
   }
 
-  async getLinks(sectionId: number, contentId: number, language: string = 'en') {
+  async getLinks(sectionId: number, contentId: number, language: string = this.client.language) {
     const response = await this.client.call('GET', `${ServerSideLinkEndpoint}/${language}/${sectionId}/${contentId}`, null)
     return await response.json()
   }

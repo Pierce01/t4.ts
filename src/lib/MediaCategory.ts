@@ -24,12 +24,12 @@ export class MediaCategory {
     return await response.json()
   }
 
-  async get(categoryID: number, language:string | 'en'): Promise<Category> {
+  async get(categoryID: number, language: string = this.client.language): Promise<Category> {
     const response = await this.client.call('GET', `${MediaCategoryEndpoint}/${categoryID}/${language}`, null)
     return await response.json()
   }
 
-  async update(categoryID: number, options: Partial<Category>, language:string | 'en'): Promise<Category> {
+  async update(categoryID: number, options: Partial<Category>, language: string = this.client.language): Promise<Category> {
     const current = await this.get(categoryID, language), newObj = Object.assign({}, current, options)
     const response = await this.client.call('PUT', `${MediaCategoryEndpoint}/${categoryID}/${language}`, {
       body: newObj

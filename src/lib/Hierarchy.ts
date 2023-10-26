@@ -8,7 +8,7 @@ export class Hierarchy {
     this.client = client
   }
 
-  async get(id: number, language: string): Promise<SectionDTO> {
+  async get(id: number, language: string = this.client.language): Promise<SectionDTO> {
     const response = await this.client.call('GET', `${HierarchyEndpoint}/${id}/${language}`, null)
     return await response.json() 
   }
@@ -57,7 +57,7 @@ export class Hierarchy {
     return response?.ok
   }
 
-  async update(id: number, language: string, options: Partial<SectionDTO>) {
+  async update(id: number, options: Partial<SectionDTO>, language: string = this.client.language) {
     let section = await this.get(id, language)
     const response = await this.client.call('PUT', `${HierarchyEndpoint}/${id}/${language}`, { body: Object.assign({}, section, options) })
     return response?.ok

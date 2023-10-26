@@ -8,12 +8,12 @@ export class Download {
     this.client = client
   }
 
-  async getFileFromElement(element: string, contentId: number, language: string): Promise<FileDownload> {
+  async getFileFromElement(element: string, contentId: number, language: string = this.client.language): Promise<FileDownload> {
     const response = await this.client.call('GET', `${DownloadEndpoint}/${contentId}/${language}/${element}`, null)
     return await response.json()
   }
 
-  async getFileFromElementVersion(element: string, contentId: number, language: string, version: number): Promise<FileDownload> {
+  async getFileFromElementVersion(element: string, contentId: number, version: number, language: string): Promise<FileDownload> {
     const response = await this.client.call('GET', `${DownloadEndpoint}/${contentId}/${language}/${version}/${element}`, null)
     return await response.json()
   }
