@@ -75,4 +75,8 @@ export class Client {
       throw Error(`Request failed due to:\n${error}`)
     }
   }
+
+  async isAuthorized() {
+    return (await this.profile.get()).username !== undefined
+  }
 }

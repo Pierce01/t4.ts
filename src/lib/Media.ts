@@ -1,5 +1,5 @@
 import { Client } from './Client.js'
-import { Category, MediaData, MediaItemTableData, MediaRow, MediaUpload, MediaUploadData } from './utility/Global.js'
+import { MediaCategoryObject, MediaData, MediaItemTableData, MediaRow, MediaUpload, MediaUploadData } from './utility/Global.js'
 import { batcher } from './utility/helpers.js'
 import * as path from 'path'
 import { readFile, stat } from 'fs/promises'
@@ -14,7 +14,7 @@ export class Media {
       getMediaIDs: async (parentID: number, arrLimit: number = 50, reqTimeout: number = 10000) => {
         const structure = await this.client.mediaCategory.list(parentID, 'en')
         let categoryIds: number[] = []
-        const populateIds = (category: Category) => {
+        const populateIds = (category: MediaCategoryObject) => {
           if (category?.id) categoryIds.push(category.id)
           if (category?.children?.length) category.children.map(cat => populateIds(cat))
         }

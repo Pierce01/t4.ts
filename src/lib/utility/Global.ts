@@ -311,16 +311,28 @@ export interface MediaRow {
   lastModified:     Date;
 }
 
-export interface Category {
+export interface MediaCategoryObject {
   id: number
   language: string
   name: string
   accessLevel: number
   status: number
-  children: Category[]
+  children: MediaCategoryObject[]
   lastModified: string
   printSequence: number
   open: boolean
+}
+
+export interface NewMediaCategoryDTO {
+  description: string
+  archive: boolean
+  status: string
+  show: boolean
+  eForm: boolean
+  "output-uri": string
+  parent: string
+  name: string
+  workflow: string
 }
 
 export enum MediaTypeCodes {

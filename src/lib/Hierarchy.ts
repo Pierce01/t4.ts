@@ -13,14 +13,14 @@ export class Hierarchy {
     return await response.json() 
   }
 
-  async getSection(id: number, options?: Partial<ReadDTO>): Promise<HierarchyResponse[]> {
+  async getSection(id: number, options?: Partial<ReadDTO>): Promise<HierarchyResponse> {
     const response = await this.client.call('POST', `${HierarchyEndpoint}/section`, {
       body: {
         read: {
           section: { id, language: 'en' },
           activeNode: id,
           openNodes: [id],
-          recursionDepth: 1,
+          recursionDepth: -1,
           restrictedToPermitedSections: false,
           showContentInfo: true,
           showAllSections: true,
