@@ -62,4 +62,14 @@ export class Hierarchy {
     const response = await this.client.call('PUT', `${HierarchyEndpoint}/${id}/${language}`, { body: Object.assign({}, section, options) })
     return response?.ok
   }
+
+  async add(parentID: number, options: { name: string, show?: boolean }, language: string = this.client.language): Promise<SectionDTO> {
+    const response = await this.client.call('POST', `${HierarchyEndpoint}/${language}`, {
+      body: {
+        parent: parentID,
+        ...options
+      }
+    })
+    return await response.json() 
+  }
 }
