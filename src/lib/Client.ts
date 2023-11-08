@@ -58,7 +58,6 @@ export class Client {
         'authorization': `Bearer ${this.token}`,
         'accept': 'application/json, text/javascript, */*; q=0.01',
         'accept-language': 'en-US,en;q=0.9',
-        'connection': 'keep-alive'
       }
       if (options?.body && ((typeof options.body == 'object' && !(options.body instanceof FormData)) || Array.isArray(options.body))) {
         options.body = JSON.stringify(options.body)
@@ -71,8 +70,8 @@ export class Client {
         method,
       })
       return request
-    } catch (error) {
-      throw Error(`Request failed due to:\n${error}`)
+    } catch (error: any) {
+      throw Error(`Request failed due to:\n${error.message}\n${error.cause}`)
     }
   }
 
