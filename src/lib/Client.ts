@@ -49,6 +49,8 @@ export class Client {
     this.serverSideLink = new ServerSideLink(this)
     this.upload = new Upload(this)
     this.version = new Version(this)
+
+    this.isAuthorized = this.isAuthorized.bind(this)
   }
   
   async call(method: string, endpoint: string, options: any) {
