@@ -72,4 +72,14 @@ export class Hierarchy {
     })
     return await response.json() 
   }
+
+  async purge(contentIds: number[], language: string = this.client.language): Promise<boolean> {
+    const response = await this.client.call('POST', `${HierarchyEndpoint}/purge`, {
+      body: {
+        languageCode: language,
+        contentIds
+      }
+    })
+    return response.status == 204
+  }
 }

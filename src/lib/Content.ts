@@ -7,6 +7,7 @@ export class Content {
   util: {
     getElementNames: (elements: ContentTypeElement[]) => Elements,
     lazyMap: (elements: Elements, formattedNames: Elements) => Elements
+    getEmptyElements: (elements: ContentTypeElement[]) => Elements
   }
   constructor(client: Client) {
     this.client = client
@@ -18,13 +19,19 @@ export class Content {
         }, {})
       },
       lazyMap: (elements: Elements, formattedNames: Elements) => {
-        let newElements: Elements = {};
+        let newElements: Elements = {}
         Object.keys(elements).forEach(key => {
           if (formattedNames.hasOwnProperty(key)) {
-            newElements[formattedNames[key]] = elements[key];
+            newElements[formattedNames[key]] = elements[key]
           }
         })
         return newElements
+      },
+      getEmptyElements: (elements: ContentTypeElement[]): Elements => {
+        return elements.reduce((elementObj: Elements, { name, id, type }) => {
+          elementObj[`${name}#${id}:${type}`] = ''
+          return elementObj
+        }, {})
       }
     }
   }
@@ -65,6 +72,10 @@ export class Content {
       const formattedElementNames = this.util.getElementNames(contentType.contentTypeElements)
       options.elements = this.util.lazyMap(options.elements, formattedElementNames)
     }
+    options.elements = {
+      ...this.util.getEmptyElements(contentType.contentTypeElements),
+      ...options.elements
+    }
     const uploadData = contentUploadData({
       channels,
       canPublishNow,
@@ -101,5 +112,15 @@ export class Content {
       }
     })
     return await response.json()
+  }
+
+  async purge(contentIds: number[], language: string = this.client.language): Promise<boolean> {
+    const response = await this.client.call('POST', `${ContentEndpoint}/purge`, {
+      body: {
+        languageCode: language,
+        contentIds
+      }
+    })
+    return response.status == 204
   }
 }

@@ -33,9 +33,9 @@ export class ServerSideLink {
   }
 
   async set(options: ServerSideLinkData) {
-    const destinationSection = await this.client.hierarchy.get(options.toSection, options.language)
+    const destinationSection = await this.client.hierarchy.get(options.toSection, options.language || this.client.language)
     if (!destinationSection) throw Error(`${options.toSection} doesn't exist!`)
-    if (!options.path) options.path = destinationSection.path
+    options.path = `${destinationSection.path}${options.toContent ? `&raquo; ${options.linkText}` : ''}`
     if (!options.toContent) options.toContent = 0
     const response: ServerSideLinkDTO = await (await this.client.call('PUT', ServerSideLinkEndpoint, { body: options })).json()
     return response

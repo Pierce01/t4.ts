@@ -37,7 +37,7 @@ export class MediaCategory {
     return await response.json()
   }
 
-  async add(parentID: number, options: Partial<NewMediaCategoryDTO>, language: string = this.client.language) {
+  async add(parentID: number, options: Partial<NewMediaCategoryDTO>, language: string = this.client.language): Promise<MediaCategoryObject> {
     if (!options.name) throw Error('Name not specified for new media category')
     const response = await this.client.call('POST', `${MediaCategoryEndpoint}/${language}`, {
       body: {
