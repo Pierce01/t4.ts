@@ -698,7 +698,7 @@ export interface PredefinedListDTO {
   defaultLanguageSetInAnotherLanguage: boolean
   sortType: number
   editable: boolean
-  primaryGroup: ListPrimaryGroup
+  primaryGroup: Partial<ListPrimaryGroup>
   sharedGroups: any[]
   sharedGroupCount: number
   fullAccess: boolean
