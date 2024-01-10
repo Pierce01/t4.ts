@@ -5,16 +5,16 @@ export const ContentEndpoint = 'content'
 export class Content {
   private client: Client
   util: {
-    getElementNames: (elements: ContentTypeElement[]) => Elements,
+    getElementNames: (elements: ContentTypeElement[], useAlias?: boolean) => Elements,
     lazyMap: (elements: Elements, formattedNames: Elements) => Elements
     getEmptyElements: (elements: ContentTypeElement[]) => Elements
   }
   constructor(client: Client) {
     this.client = client
     this.util = {
-      getElementNames: (elements: ContentTypeElement[]): Elements => {
+      getElementNames: (elements: ContentTypeElement[], useAlias: boolean = true): Elements => {
         return elements.reduce((elementObj: Elements, { alias, name, id, type }) => {
-          elementObj[alias || name] = `${name}#${id}:${type}`
+          elementObj[useAlias ? alias || name : name] = `${name}#${id}:${type}`
           return elementObj
         }, {})
       },
