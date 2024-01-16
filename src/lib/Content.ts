@@ -12,14 +12,13 @@ export class Content {
   constructor(client: Client) {
     this.client = client
     this.util = {
-      getElementNames: (elements: ContentTypeElement[], useAlias: boolean = true): Elements => {
-        return elements.reduce((elementObj: Elements, { alias, name, id, type }) => {
+      getElementNames: (elements: ContentTypeElement[], useAlias: boolean = true): Elements => 
+        elements.reduce((elementObj: Elements, { alias, name, id, type }) => {
           elementObj[useAlias ? alias || name : name] = `${name}#${id}:${type}`
           return elementObj
-        }, {})
-      },
+        }, {}),
       lazyMap: (elements: Elements, formattedNames: Elements) => {
-        let newElements: Elements = {}
+        const newElements: Elements = {}
         Object.keys(elements).forEach(key => {
           if (formattedNames.hasOwnProperty(key)) {
             newElements[formattedNames[key]] = elements[key]
@@ -28,8 +27,19 @@ export class Content {
         return newElements
       },
       getEmptyElements: (elements: ContentTypeElement[]): Elements => {
+        const getEmptyValue = (type: number): any => {
+          switch(type) {
+            case 2:
+            case 4:
+              return { existingFile: false }
+            case 5: 
+              return null
+            default: 
+              return ''
+          }
+        }
         return elements.reduce((elementObj: Elements, { name, id, type }) => {
-          elementObj[`${name}#${id}:${type}`] = ''
+          elementObj[`${name}#${id}:${type}`] = getEmptyValue(type)
           return elementObj
         }, {})
       }
