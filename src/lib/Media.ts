@@ -1,5 +1,5 @@
 import { Client } from './Client.js'
-import { MediaCategoryObject, MediaData, MediaItemTableData, MediaRow, MediaUpload, MediaUploadData } from './utility/Global.js'
+import { MediaCategoryObject, MediaData, MediaItemDTO, MediaItemTableData, MediaRow, MediaUsageDTO, MediaUpload, MediaUploadData } from './utility/Global.js'
 import { batcher } from './utility/helpers.js'
 import * as path from 'path'
 import { readFile, stat } from 'fs/promises'
@@ -11,7 +11,7 @@ export class Media {
   constructor(client:Client) {
     this.client = client
     this.util = {
-      getMediaIDs: async (parentID: number, arrLimit: number = 50, reqTimeout: number = 10000) => {
+      getMediaIDs: async (parentID: number, arrLimit: number = 50, reqTimeout: number = 10000): Promise<number[]> => {
         const structure = await this.client.mediaCategory.list(parentID, 'en')
         let categoryIds: number[] = []
         const populateIds = (category: MediaCategoryObject) => {
@@ -39,18 +39,18 @@ export class Media {
     return await response.json()
   }
 
-  async get(contentId: number, language: string = this.client.language) {
+  async get(contentId: number, language: string = this.client.language): Promise<MediaItemDTO> {
     const response = await this.client.call('GET', `${MediaEndpoint}/${contentId}/${language}`, null)
     return await response.json()
   }
 
-  async getMediaUsage(mediaID: number, language: string = this.client.language) {
+  async getMediaUsage(mediaID: number, language: string = this.client.language): Promise<MediaUsageDTO[]> {
     const response = await this.client.call('GET', `${MediaEndpoint}/${mediaID}/${language}/usage`, null)
     return await response.json()
   }
 
-  async bulkGetMediaUsage (mediaIDs: number[], language: string = this.client.language) {
-    const response = await this.client.call('POST', `${MediaEndpoint}/getUsage/${language}`, {body: mediaIDs})
+  async bulkGetMediaUsage(mediaIDs: number[], language: string = this.client.language) {
+    const response = await this.client.call('POST', `${MediaEndpoint}/getUsage/${language}`, { body: mediaIDs })
     return await response.json()
   }
 
@@ -64,7 +64,7 @@ export class Media {
     return await response.json()
   }
 
-  async downloadSingle(id: number, type: 'media' | 'file' | 'thumbnail', version?: string) {
+  async downloadSingle(id: number, type: 'media' | 'file' | 'thumbnail', version?: string): Promise<ArrayBuffer | null> {
     if (!version) version = (await this.client.content.getVersions(id, 'smxx'))[0].version
     const inital = await this.client.call('GET', `${MediaEndpoint}/${id}/smxx/${version}/${type}`, { redirect: 'manual' })
     if (inital.status != 302) return null

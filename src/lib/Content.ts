@@ -66,7 +66,7 @@ export class Content {
     return await response.json()
   }
 
-  async delete(contentId: number, sectionId: number, language: string = this.client.language) {
+  async delete(contentId: number, sectionId: number, language: string = this.client.language): Promise<boolean> {
     const response = await this.client.call('DELETE', `${ContentEndpoint}/${sectionId}/${contentId}/${language}`, null)
     return response?.ok 
   }

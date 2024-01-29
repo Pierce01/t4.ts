@@ -16,6 +16,8 @@ import { Version } from "./Version.js"
 export class Client {
   url: String
   private token: String
+  language: string
+  fetch: any
 
   content: Content
   contentType: ContentType
@@ -25,13 +27,12 @@ export class Client {
   media: Media
   mediaCategory: MediaCategory
   mediaType: MediaType
-  language: string
   list: List
   profile: Profile
   serverSideLink: ServerSideLink
   upload: Upload
   version: Version
-  constructor(url: string, token: string, language: string = 'en') {
+  constructor(url: string, token: string, language: string = 'en', _fetch = fetch) {
     this.url = url
     this.token = token
     this.language = language
@@ -51,6 +52,7 @@ export class Client {
     this.version = new Version(this)
 
     this.isAuthorized = this.isAuthorized.bind(this)
+    this.fetch = _fetch
   }
   
   async call(method: string, endpoint: string, options: any) {
@@ -66,7 +68,7 @@ export class Client {
         headers['content-type'] = 'application/json'
       }
       headers = options?.headers ? Object.assign(options.headers, headers) : headers
-      const request = await fetch(`${this.url}/${endpoint}`, {
+      const request = await this.fetch(`${this.url}/${endpoint}`, {
         ...options,
         headers,
         method,

@@ -294,6 +294,41 @@ export interface MediaItemTableData {
   mediaRows:       MediaRow[];
 }
 
+export interface MediaItemDTO {
+  id: number
+  contentTypeID: number
+  archiveSection: number
+  language: string
+  name: string
+  status: number
+  lastModifiedBy: number
+  version: string
+  editable: boolean
+  expired: boolean
+  canPublishNow: boolean
+  canSaveAndApprove: boolean
+  contentTypeAccess: number
+  elements: Elements
+  contentType: ContentTypeDTO
+  types: Type[]
+  syntax: number
+  type: number
+  binaryLanguage: string
+  categories: number[]
+  description: string
+  typeName: string
+  mediaURL: string
+  thumbnailURL: string
+  mediaPath: string
+  mediaSize: number
+  fileName: string
+  variant: number
+  variantName: string
+  variantDimensions: string
+  accessLevel: number
+  mediaCanHaveVariants: boolean
+}
+
 export interface MediaRow {
   id:               string;
   status:           string;
@@ -554,6 +589,21 @@ export interface FormUsageDTO {
   type: string
   sectionId: number
   name: string
+}
+
+export interface MediaUsageDTO {
+  contentName: string
+  assetType: string
+  variant: string
+  location: string
+  occurrences: number
+  language: string
+  contentID: number
+  sectionID: number
+  hasAccess: boolean
+  contentLayoutContentTypeID: number
+  mediaID: number
+  variantUsage: boolean
 }
 
 export interface contenUploadDTO {

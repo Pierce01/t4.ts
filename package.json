@@ -1,6 +1,6 @@
 {
   "name": "t4.ts",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "TypeScript API Library for TerminalFour",
   "type": "module",
   "exports": {
@@ -19,7 +19,7 @@
   "module": "./mjs/index.js",
   "scripts": {
     "build": "npx tsc --module es2022 --outDir esm/ && npx tsc --module commonjs --outDir cjs/",
-    "docs":  "npx typedoc src/index.ts --plugin typedoc-plugin-missing-exports --excludeExternals true"
+    "docs": "npx typedoc src/index.ts --plugin typedoc-plugin-missing-exports --excludeExternals true"
   },
   "repository": {
     "type": "git",
