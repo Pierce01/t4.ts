@@ -28,20 +28,46 @@ export class Media {
   }
 
   async add(data: MediaUpload) {
-    const formData = new FormData()
     const expandedData: MediaData = MediaUploadData(data)
-    const filePath = path.resolve(data.file)
-    if (!await stat(filePath)) throw Error(`File at ${filePath} does not exist.`)
-    if (!expandedData.fileName || expandedData.fileName == 'undefined') expandedData.fileName = path.basename(filePath)
-    const blob = new Blob([await readFile(filePath)])
-    for (let key in expandedData) { key == 'file' ? formData.append('file', blob, expandedData.fileName) : formData.append(key, expandedData[key]) }  
+    const formData = await this.prepareMediaData(data.file, expandedData)
     const response = await this.client.call('POST', `${MediaEndpoint}`, { body: formData })
     return await response.json()
   }
 
-  async get(contentId: number, language: string = this.client.language): Promise<MediaItemDTO> {
-    const response = await this.client.call('GET', `${MediaEndpoint}/${contentId}/${language}`, null)
+  async get(mediaId: number, language: string = this.client.language): Promise<MediaItemDTO> {
+    const response = await this.client.call('GET', `${MediaEndpoint}/${mediaId}/${language}`, null)
     return await response.json()
+  }
+
+  async modify(mediaId: number, data: Partial<MediaUpload>, categoryID?: number): Promise<number> {
+    const mediaObj = await this.get(mediaId)
+    if (mediaId != mediaObj.id) throw Error(`Media ID mismatch: ${mediaId} != ${mediaObj.id}`)
+    const expandedData: MediaData = MediaUploadData(data, mediaObj)
+    expandedData.version = String(parseFloat(mediaObj.version) + 1)
+    const formData = await this.prepareMediaData(data.file!, expandedData)
+    formData.append('mediaID', String(mediaId))
+    const response = await this.client.call('POST', `${MediaEndpoint}/category/${categoryID ?? mediaObj.categories[0]}/${expandedData.binaryLanguage}/${mediaId}`, { body: formData })
+    return response.status
+  }
+
+  async prepareMediaData(file: string | Blob, expandedData: MediaData): Promise<FormData> {
+    const formData = new FormData()
+    let blob: Blob
+    if (file instanceof Blob) {
+      blob = file
+    } else {
+      const filePath = path.resolve(file)
+      if (!await stat(filePath)) throw Error(`File at ${filePath} does not exist.`)
+      if (!expandedData.fileName || expandedData.fileName == 'undefined') expandedData.fileName = path.basename(filePath)
+      try {
+        blob = new Blob([await readFile(filePath)], { type: 'application/octet-stream' })
+      } catch(e) {
+        throw Error(`Error reading file at ${filePath}: ${e}`)
+      }
+    }
+    Object.entries(expandedData).forEach(([key, value]) => formData.append(key, value));
+    formData.append('file', blob, expandedData.fileName)
+    return formData
   }
 
   async getMediaUsage(mediaID: number, language: string = this.client.language): Promise<MediaUsageDTO[]> {

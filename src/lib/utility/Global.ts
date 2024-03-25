@@ -1,7 +1,7 @@
 export const max = 999999
 export const min = 100000
 
-export interface UserProfileView {
+export type UserProfileView = {
   firstName:               string;
   lastName:                string;
   username:                string;
@@ -16,7 +16,7 @@ export interface UserProfileView {
   userLevel:               string;
 }
 
-export interface SectionDTO {
+export type SectionDTO = {
   id:                     string;
   parent:                 string;
   name:                   string;
@@ -72,7 +72,7 @@ export interface SectionDTO {
   pathAsOutputUriEnabled: string;
 }
 
-export interface Content {
+export type Content = {
   id:                       string;
   contentTypeID:            string;
   archiveSection:           string;
@@ -110,12 +110,12 @@ export interface Content {
   sectionIDs:               string;
 }
 
-export interface AlternativeLanguages {
+export type AlternativeLanguages = {
   language: string;
   name:     string;
 }
 
-export interface ContentTypeDTO {
+export type ContentTypeDTO = {
   id:                   string;
   name:                 string;
   description:          string;
@@ -140,7 +140,7 @@ export interface ContentTypeDTO {
   fullyAccessible:      string;
 }
 
-export interface FileDownload {
+export type FileDownload = {
   name: string
   file?: string
   mimeType?: string
@@ -153,14 +153,14 @@ export interface FileDownload {
   element?: string
 }
 
-export interface FileVersion {
+export type FileVersion = {
   version: string
   subMinor: number
   major: number
   minor: number
 }
 
-export interface Lock {
+export type Lock = {
   assetID:     string;
   assetType:   string;
   lockType:    string;
@@ -171,7 +171,7 @@ export interface Lock {
   language:    string;
 }
 
-export interface PrimaryGroup {
+export type PrimaryGroup = {
   ownershipLevel: string;
   group:          string;
   assetID:        string;
@@ -181,12 +181,7 @@ export interface PrimaryGroup {
   groupName:      string;
 }
 
-export interface Owner {
-  id:   string;
-  type: string;
-}
-
-export interface ContentDTO {
+export type ContentDTO = {
   id:                       string;
   contentTypeID:            string;
   archiveSection:           string;
@@ -226,50 +221,40 @@ export interface ContentDTO {
 }
 
 export type sortLock = 'TOP' | 'BOTTOM' | 'UNLOCKED'
-export interface Lock {
-  assetID:     string;
-  assetType:   string;
-  lockType:    string;
-  expiry:      string;
-  owner:       string;
-  ownerName:   string;
-  currentUser: string;
-  language:    string;
-}
 
-export interface Elements {
+export type Elements = {
   [Key: string]: string;
 }
-export interface InheritedPageLayouts extends Elements {}
+export type InheritedPageLayouts = Elements
 
-export interface Owner {
+export type Owner = {
   id:   string;
   type: string;
 }
 
-export interface AccessControl {
+export type AccessControl = {
   id:      string;
   type:    string;
   enabled: string;
   active:  string;
 }
-export interface MetaData extends AccessControl {}
+export type MetaData = AccessControl
 
-export interface Channels {
+export type Channels = {
   id:                  string;
   pageLayout:          string;
   inheritedPageLayout: string;
   valid:               string;
 }
-export interface AppliedPageLayoutsDTO extends Channels {}
+export type AppliedPageLayoutsDTO = Channels
 
-export interface ContentTypeScopes {
+export type ContentTypeScopes = {
   id:        string;
   scope:     string;
   inherited: string;
 }
 
-export interface LinkInfo {
+export type LinkInfo = {
   type:          string;
   section:       string;
   url:           string;
@@ -280,13 +265,13 @@ export interface LinkInfo {
   overridden:    string;
 }
 
-export interface MetaDatas {
+export type MetaDatas = {
   id:    string;
   value: string;
   lang:  string;
 }
 
-export interface MediaItemTableData {
+export type MediaItemTableData = {
   draw:            string;
   recordsTotal:    string;
   recordsFiltered: string;
@@ -294,7 +279,7 @@ export interface MediaItemTableData {
   mediaRows:       MediaRow[];
 }
 
-export interface MediaItemDTO {
+export type MediaItemDTO = {
   id: number
   contentTypeID: number
   archiveSection: number
@@ -329,7 +314,7 @@ export interface MediaItemDTO {
   mediaCanHaveVariants: boolean
 }
 
-export interface MediaRow {
+export type MediaRow = {
   id:               string;
   status:           string;
   language:         string;
@@ -346,7 +331,7 @@ export interface MediaRow {
   lastModified:     Date;
 }
 
-export interface MediaCategoryObject {
+export type MediaCategoryObject = {
   id: number
   language: string
   name: string
@@ -358,7 +343,7 @@ export interface MediaCategoryObject {
   open: boolean
 }
 
-export interface NewMediaCategoryDTO {
+export type NewMediaCategoryDTO = {
   description: string
   archive: boolean
   status: string
@@ -440,7 +425,7 @@ export type SyntaxTypeObjects = {
   },
 }
 
-export interface MediaUpload {
+export type MediaUpload = {
   name: string,
   description: string,
   type: MediaTypeCodes,
@@ -448,14 +433,14 @@ export interface MediaUpload {
   myMedia?: 0 | 1,
   version?: string,
   binaryLanguage?: 'smxx' | string,
-  file: string,
+  file: string | Blob,
   keywords?: string[],
   language: string,
   categoryID: string | number,
   fileName?: string
 }
 
-export interface MediaData {
+export type MediaData = {
   [key: string]: string | Blob,
   name: string,
   description: string,
@@ -465,30 +450,34 @@ export interface MediaData {
   elements: string,
   version: string,
   binaryLanguage: string,
-  file: Blob,
   language: string,
   categories: string,
   fileName: string,
 }
 
-export function MediaUploadData(data: MediaUpload): MediaData {
+export function MediaUploadData(data: Partial<MediaUpload>, existingMedia?: MediaItemDTO): MediaData {
+  data = {...existingMedia, ...data} 
   return {
-    name: data.name,
-    description: data.description,
-    type: String(data.type),
-    file: new Blob(),
+    name: data.name || 'undefined',
+    description: data.description || 'undefined',
+    type: String(data.type || 1),
     syntaxType: String(data.syntaxType || 0),
     myMedia: String(data.myMedia || 0),
-    elements: JSON.stringify({'keywords#9:undefined': `${data.keywords?.join(', ') || ''}`}),
+    elements: ((): string => {
+      const elementData: {[key: string]: string} = {}
+      const keywords = `keywords#9:${String(data.type)}`
+      elementData[keywords] = `${data.keywords?.join(', ') || ''}`
+      return JSON.stringify(elementData)
+    })(),
     version: data.version || 'undefined',
     binaryLanguage: data.binaryLanguage || 'smxx',
     fileName: String(data.fileName),
     language: data.language || 'smxx',
-    categories: String(data.categoryID)
+    categories: String(data.categoryID || existingMedia?.categories[0])
   }
 }
 
-export interface ReadDTO {
+export type ReadDTO = {
   section: HierarchyNodeDTO
   recursionDepth: number
   activeNode: number
@@ -513,13 +502,13 @@ export interface ReadDTO {
   asExplode?: boolean
 }
 
-export interface HierarchyNodeDTO {
+export type HierarchyNodeDTO = {
   id: number
   channel: number
   language: string
 }
 
-export interface HierarchyResponse {
+export type HierarchyResponse = {
   id: number
   names: Elements
   hasChildren: boolean
@@ -548,13 +537,13 @@ export interface HierarchyResponse {
   userAllowedModifySections: boolean
 }
 
-export interface HierarchyContentResponseDTO {
+export type HierarchyContentResponseDTO = {
   id: number,
   contents: HierarchyContentResponse[],
   path: string
 }
 
-export interface HierarchyContentResponse {
+export type HierarchyContentResponse = {
   id: number,
   name: string,
   status: string,
@@ -563,14 +552,14 @@ export interface HierarchyContentResponse {
   expired: boolean
 }
 
-export interface FormBuilderResponseDTO {
+export type FormBuilderResponseDTO = {
   draw: number
   recordsTotal: number
   recordsFiltered: number
   data: FormDTO[]
 }
 
-export interface FormDTO {
+export type FormDTO = {
   id: number
   name: string
   lastModified: number
@@ -581,7 +570,7 @@ export interface FormDTO {
   description?: string
 }
 
-export interface FormUsageDTO {
+export type FormUsageDTO = {
   formId: number
   assetId: number
   language: string
@@ -591,7 +580,7 @@ export interface FormUsageDTO {
   name: string
 }
 
-export interface MediaUsageDTO {
+export type MediaUsageDTO = {
   contentName: string
   assetType: string
   variant: string
@@ -606,7 +595,7 @@ export interface MediaUsageDTO {
   variantUsage: boolean
 }
 
-export interface contenUploadDTO {
+export type contenUploadDTO = {
   id?: number
   channels?: number[]
   canPublishNow?: boolean
@@ -620,7 +609,7 @@ export interface contenUploadDTO {
   reviewDate?: Date | null
   archiveSection: any
   owner: Owner
-  excludedMirrorSectionIds: any[]
+  excludedMirrorSectionIds: number[]
 }
 
 export function contentUploadData(options: contenUploadDTO) {
@@ -657,7 +646,7 @@ export function contentUploadData(options: contenUploadDTO) {
   }
 }
 
-export interface NewContentDTO {
+export type NewContentDTO = {
   contentType: ContentTypeDTO
   channels: number[]
   types: Type[]
@@ -665,7 +654,7 @@ export interface NewContentDTO {
   canSaveAndApprove: boolean
 }
 
-export interface ContentTypeElement {
+export type ContentTypeElement = {
   id: number
   contentTypeID: number
   name: string
@@ -681,38 +670,38 @@ export interface ContentTypeElement {
   binary: boolean
 }
 
-export interface Type {
+export type Type = {
   id: number
   name: string
   listType: boolean
 }
 
-export interface UploadObject {
+export type UploadObject = {
   file: string,
   filename: string,
   elementID: string
 }
 
-export interface UploadData {
+export type UploadData = {
   [key: string]: string | Blob,
   file: Blob,
   filename: string,
   elementID: string
 }
 
-export interface UploadDTO {
+export type UploadDTO = {
   code: string
   name: string
 }
 
-export interface UploadListDTO {
+export type UploadListDTO = {
   [key: string] : {
     code: string
     name: string
   }
 }
 
-export interface ServerSideLinkData {
+export type ServerSideLinkData = {
   useDefaultLinkText?: boolean
   fromSection: number
   toSection: number
@@ -726,12 +715,12 @@ export interface ServerSideLinkData {
   active: boolean
 }
 
-export interface ServerSideLinkDTO extends ServerSideLinkData {
+export type ServerSideLinkDTO = ServerSideLinkData & {
   id: number
   broken: boolean
 }
 
-export interface PredefinedListDTO {
+export type PredefinedListDTO = {
   id: number
   language: string
   name: string
@@ -754,7 +743,7 @@ export interface PredefinedListDTO {
   fullAccess: boolean
 }
 
-export interface ListItem {
+export type ListItem = {
   name: string
   value: string
   sequence: number
@@ -764,7 +753,7 @@ export interface ListItem {
   listId: number
 }
 
-export interface CteWithListsAsElement {
+export type CteWithListsAsElement = {
   name: string
   description: string
   typeID: number
@@ -779,7 +768,7 @@ export interface CteWithListsAsElement {
   listId: number
 }
 
-export interface ListType {
+export type ListType = {
   id: number
   name: string
   description: string
@@ -791,14 +780,14 @@ export interface ListType {
   enabled: boolean
 }
 
-export interface ListPrimaryGroup {
+export type ListPrimaryGroup = {
   group: Group
   fullAccess: boolean
   id: number
   name: string
 }
 
-export interface Group {
+export type Group = {
   id: number
   name: string
   description: string
@@ -810,7 +799,7 @@ export interface Group {
   deleted: boolean
 }
 
-export interface VersionDTO {
+export type VersionDTO = {
   language: string
   version: string
   name: string

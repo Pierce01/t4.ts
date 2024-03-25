@@ -9,8 +9,9 @@ import { MediaCategory } from "./MediaCategory.js"
 import { MediaType } from "./MediaType.js"
 import { List } from "./List.js"
 import { Profile } from "./Profile.js"
-import { Upload } from "./Upload.js"
 import { ServerSideLink } from "./ServerSideLink.js"
+import { Type } from "./Type.js"
+import { Upload } from "./Upload.js"
 import { Version } from "./Version.js"
 
 export class Client {
@@ -30,6 +31,7 @@ export class Client {
   list: List
   profile: Profile
   serverSideLink: ServerSideLink
+  type: Type
   upload: Upload
   version: Version
   constructor(url: string, token: string, language: string = 'en', _fetch = fetch) {
@@ -48,6 +50,7 @@ export class Client {
     this.list = new List(this)
     this.profile = new Profile(this)
     this.serverSideLink = new ServerSideLink(this)
+    this.type = new Type(this)
     this.upload = new Upload(this)
     this.version = new Version(this)
 
@@ -55,7 +58,7 @@ export class Client {
     this.fetch = _fetch
   }
   
-  async call(method: string, endpoint: string, options: any) {
+  async call(method: string, endpoint: string, options: any): Promise<Response> {
     if (!this.token) throw Error('Token not specified')
     try {
       let headers: Elements = {
