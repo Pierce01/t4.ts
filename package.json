@@ -1,6 +1,6 @@
 {
   "name": "t4.ts",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "TypeScript API Library for TerminalFour",
   "type": "module",
   "main": "./dist/index.cjs",
