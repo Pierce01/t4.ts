@@ -1,4 +1,4 @@
-import { Client, batcher, chunk } from "../esm/index.js"
+import { Client, batcher, chunk } from "t4.ts"
 import * as fs from 'fs'
 
 const config = JSON.parse(fs.readFileSync('../../config.json', 'utf-8'))

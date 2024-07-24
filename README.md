@@ -1,5 +1,4 @@
 # T4.ts
-### Still in active development
 A TypeScript wrapper for TerminalFour's REST API
 
 ## Installing

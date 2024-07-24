@@ -1,24 +1,20 @@
 {
   "name": "t4.ts",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "TypeScript API Library for TerminalFour",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./cjs/index.js",
-    "import": "./esm/index.js",
-    "default": "./esm/index.js"
-  },
-  "typesVersions": {
-    "*": {
-      "index.d.ts": [
-        "./esm/index.d.ts"
-      ]
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
-  "main": "./cjs/index.js",
-  "module": "./mjs/index.js",
   "scripts": {
-    "build": "npx tsc --module es2022 --outDir esm/ && npx tsc --module commonjs --outDir cjs/",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
     "docs": "npx typedoc src/index.ts --plugin typedoc-plugin-missing-exports --excludeExternals true"
   },
   "repository": {
@@ -35,9 +31,8 @@
   },
   "homepage": "https://github.com/Pierce01/t4.ts#readme",
   "devDependencies": {
-    "typedoc": "^0.25.1"
-  },
-  "dependencies": {
+    "tsup": "^8.2.2",
+    "typedoc": "^0.25.1",
     "typedoc-plugin-missing-exports": "^2.1.0"
   }
 }

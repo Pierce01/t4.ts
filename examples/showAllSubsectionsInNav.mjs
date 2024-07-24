@@ -1,4 +1,4 @@
-import { Client } from "../esm/index.js"
+import { Client } from '../dist'
 import * as fs from 'fs'
 
 const config = JSON.parse(fs.readFileSync('../../config.json', 'utf-8'))
@@ -8,7 +8,7 @@ const { hierarchy } = new Client(config.url, config.token)
 const parentID = 26199
 
 const options = { show: true }
-const parentSection = (await hierarchy.getSection(parentID))[0]
+const parentSection = await hierarchy.getSection(parentID)
 if (!parentSection.hasChildren || !parentSection.subsections) throw Error('Section has no child sections to mark.')
 const traverseSubsection = async (subsection) => {
   for(let section of subsection) {
